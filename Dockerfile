@@ -1,11 +1,17 @@
-FROM python:3.9
+FROM python:3.8-buster
 
-WORKDIR /code
+# set a directory for the app
+WORKDIR /usr/src/app
 
-COPY ./requirements.txt /code/requirements.txt
+# copy all the files to the container
+COPY . .
 
-RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
+# install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
 
-COPY . /code/app
+# tell the port number the container should expose
+EXPOSE 5000
 
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]
+# run the command
+CMD ["python", "-m", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "5000" ]
+# CMD ["python", "./main.py"]
